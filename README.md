@@ -6,8 +6,6 @@
 
 #installation
 
-npm init
-
 npm install mysql2
 
 npm install sequelize
