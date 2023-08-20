@@ -3,7 +3,7 @@ const { Category, Product } = require('../../models');
 
 // The `/api/categories` endpoint
 
-router.get('/', async (req, res) => { // Add async here
+router.get('/', async (req, res) => {
   try {
     const categories = await Category.findAll({
       include: Product, // Include products
@@ -17,16 +17,17 @@ router.get('/', async (req, res) => { // Add async here
 
 // find one category by its `id` value
 // be sure to include its associated Products
-router.get('/:id', async (req, res) => { // Add async here
+router.get('/:id', async (req, res) => {
   try {
-    const category = await Category.findByPk(req.params.id, { // Fix typo here, change 'catergory' to 'category'
+    const category = await Category.findByPk(req.params.id, {
       include: Product,
     });
     
     if (!category) {
-      res.status(404).json({ message: 'Category not found' }); // Change status code to 404 for not found
+      res.status(404).json({ message: 'Category not found' });
       return;
     }
+    
     res.status(200).json(category);
   } catch (err) {
     console.error(err);
@@ -53,11 +54,13 @@ router.put('/:id', async (req, res) => {
     });
 
     if (updatedCategory[0] === 0) {
-      res.status(404).json({ message: 'Category not found'});
+      res.status(404).json({ message: 'Category not found' });
       return;
     }
 
-    res.status(200).json({ message: 'Category updated successfully' });
+    // Include the updated category data in the response
+    const category = await Category.findByPk(req.params.id);
+    res.status(200).json(category);
   } catch (err) {
     console.error(err);
     res.status(500).json(err);
@@ -68,7 +71,7 @@ router.put('/:id', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const deletedCategory = await Category.destroy({
-      where: { id: req.params.id},
+      where: { id: req.params.id },
     });
 
     if (!deletedCategory) {
@@ -76,7 +79,9 @@ router.delete('/:id', async (req, res) => {
       return;
     }
 
-    res.status(200).json({ message: 'Category deleted successfully' });
+    // Include the deleted category data in the response
+    const category = await Category.findByPk(req.params.id);
+    res.status(204).json(category); // Use 204 for No Content
   } catch (err) {
     console.error(err);
     res.status(500).json(err);
