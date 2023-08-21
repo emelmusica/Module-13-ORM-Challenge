@@ -65,3 +65,9 @@ quit
 npm run seed
 
 npm start
+
+Video walkthrough Link: 
+https://www.youtube.com/watch?v=cJYaBWbXIWo&feature=youtu.be
+
+Repository Link:
+https://github.com/emelmusica/Module-13-ORM-Challenge.git
